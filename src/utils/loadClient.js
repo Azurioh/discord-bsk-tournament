@@ -3,36 +3,36 @@ import { glob } from "glob";
 
 async function loadCommands(client) {
     const commands = await glob(`${process.cwd()}/src/commands/*.js`);
-    let file;
 
     client.commands = new Collection();
     client.arrayOfCommands = [];
     if (!commands) {
         return null;
     }
-    commands.map(async command => {
-        file = await import(command);
+    await Promise.all(commands.map(async (command) => {
+        let file = await import(command);
         file = file?.default;
+
         if (!file?.name) {
             return false;
         }
         client.commands.set(file.name, file);
         client.arrayOfCommands.push(file);
-    });
+    }));
     return true;
 }
 
 async function loadEvents(client) {
     const events = await glob(`${process.cwd()}/src/events/*.js`);
-    let file;
 
     client.events = new Collection();
     if (!events) {
         return null;
     }
-    events.map(async (event) => {
-        file = await import(event);
+    await Promise.all(events.map(async (event) => {
+        let file = await import(event);
         file = file?.default;
+
         if (!file?.name) {
             return false;
         }
@@ -42,26 +42,26 @@ async function loadEvents(client) {
             console.error(err);
             return false;
         }
-    });
+    }));
     return true;
 }
 
 async function loadButtons(client) {
     const buttons = await glob(`${process.cwd()}/src/buttons/*.js`);
-    let file;
 
     client.buttons = new Collection();
     if (!buttons) {
         return null;
     }
-    buttons.map(async button => {
-        file = await import(button);
+    await Promise.all(buttons.map(async (button) => {
+        let file = await import(button);
         file = file?.default;
+
         if (!file?.name) {
             return false;
         }
         client.buttons.set(file.name, file);
-    });
+    }));
     return true;
 }
 
