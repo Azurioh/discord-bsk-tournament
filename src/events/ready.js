@@ -1,7 +1,9 @@
-import { ActivityType } from "discord.js";
+import { ActivityType, Events } from "discord.js";
+import deployCommands from "../utils/deployCommands.js";
 
 function Ready(client)
 {
+    deployCommands(client);
     client.user.setPresence({
         activities: [{ name: "En développement...", type: ActivityType.Streaming, url: "https://twitch.tv/bsktv_" }],
         status: 'dnd',
@@ -10,7 +12,7 @@ function Ready(client)
 }
 
 const event = {
-    name: "ready",
+    name: Events.ClientReady,
     run: (client) => Ready(client),
 }
 
