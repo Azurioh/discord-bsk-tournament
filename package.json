@@ -1,8 +1,10 @@
 {
   "dependencies": {
+    "better-sqlite3": "^9.3.0",
     "discord.js": "^14.14.1",
     "dotenv": "^16.3.1",
-    "glob": "^10.3.10"
+    "glob": "^10.3.10",
+    "quick.db": "^9.1.7"
   },
   "name": "discord-bsk-tournament",
   "description": "",
