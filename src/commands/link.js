@@ -11,8 +11,13 @@ async function Link(interaction, client)
     };
     let index = -1;
 
-    await db.set(`startgg_${interaction.user.id}`, username);
     for (let i = 0; i < usernames.length; i++) {
+        if (usernames[i].startgg === username && usernames[i].discordid !== interaction.user.id) {
+            interaction.reply({
+                content: "Ce pseudo start.gg est déjà lié à un autre compte Discord, veuillez contacter un administrateur",
+                ephemeral: true,
+            });
+        }
         if (usernames[i].discordId === interaction.user.id) {
             usernames[i].startgg = username;
             index = i;
