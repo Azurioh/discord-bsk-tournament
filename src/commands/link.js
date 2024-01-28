@@ -1,5 +1,6 @@
 import { QuickDB } from "quick.db";
-
+import updateCallChoices from "../utils/updateCallChoices.js";
+ 
 async function Link(interaction, client)
 {
     const db = new QuickDB();
@@ -12,11 +13,12 @@ async function Link(interaction, client)
     let index = -1;
 
     for (let i = 0; i < usernames.length; i++) {
-        if (usernames[i].startgg === username && usernames[i].discordid !== interaction.user.id) {
+        if (usernames[i].startgg === username && usernames[i].discordId !== interaction.user.id) {
             interaction.reply({
                 content: "Ce pseudo start.gg est déjà lié à un autre compte Discord, veuillez contacter un administrateur",
                 ephemeral: true,
             });
+            return;
         }
         if (usernames[i].discordId === interaction.user.id) {
             usernames[i].startgg = username;
@@ -29,6 +31,7 @@ async function Link(interaction, client)
         usernames.push(user_info);
     }
     await db.set("startgg_usernames", usernames);
+    await updateCallChoices(client);
     interaction.reply({ 
         content: `Félicitations ! Vous avez lié votre compte Discord avec votre compte start.gg\n\n> start.gg : ${username}`,
         ephemeral: true
