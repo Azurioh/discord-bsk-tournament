@@ -1,10 +1,5 @@
-import { PermissionFlagsBits, PermissionsBitField } from "discord.js";
 import { QuickDB } from "quick.db";
-
-const db = new QuickDB();
-const usernames = await db.get(`startgg_usernames`) || [];
-const choices = [];
-let info = {};
+import getCallChoices from "../utils/getCallChoice.js";
 
 function SendMessage(interaction, userId)
 {
@@ -24,9 +19,11 @@ function SendMessage(interaction, userId)
     return;
 }
 
-function Call(interaction, client) 
+async function Call(interaction, client) 
 {
+    const db = new QuickDB();
     const username = interaction.options.getString("pseudo");
+    const usernames = await db.get(`startgg_usernames`) || [];
 
     for (let i = 0; i < usernames.length; i++) {
         if (username === usernames[i].startgg) {
@@ -38,11 +35,6 @@ function Call(interaction, client)
     return;
 }
 
-for (let i = 0; i < usernames.length && i < 100; i++) {
-    info.name = `${usernames[i].startgg}`;
-    info.value = usernames[i].startgg;
-    choices.push(info);
-}
 const command = {
     name: "call",
     description: "Ping un utilisateur en DM",
@@ -51,7 +43,7 @@ const command = {
             name: "pseudo",
             description: "Pseudo startgg de l'utilisateur",
             type: 3,
-            choices: choices,
+            choices: await getCallChoices(),
             required: true,
         },
     ],
