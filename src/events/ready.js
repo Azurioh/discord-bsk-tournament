@@ -5,7 +5,7 @@ function Ready(client)
 {
     deployCommands(client);
     client.user.setPresence({
-        activities: [{ name: "En développement...", type: ActivityType.Streaming, url: "https://twitch.tv/bsktv_" }],
+        activities: [{ name: "BSK ULTRA !", type: ActivityType.Streaming, url: "https://twitch.tv/bsktv_" }],
         status: 'dnd',
     });
     console.log(`Bot connected on the account: ${client.user.tag}`);
