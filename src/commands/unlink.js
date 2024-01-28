@@ -1,4 +1,5 @@
 import { QuickDB } from "quick.db";
+import updateCallChoices from "../utils/updateCallChoices.js";
 
 async function Unlink(interaction, client)
 {
@@ -17,6 +18,7 @@ async function Unlink(interaction, client)
     }
     usernames.splice(index, 1);
     await db.set(`startgg_usernames`, usernames);
+    await updateCallChoices(client);
     interaction.reply({ content: "Vous avez bien désynchroniser votre compte start.gg de votre compte Discord", ephemeral: true });
     return;
 }
